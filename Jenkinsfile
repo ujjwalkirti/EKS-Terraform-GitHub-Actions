@@ -5,7 +5,7 @@ properties([
             name: 'Environment'
         ),
         choice(
-            choices: ['plan', 'apply', 'destroy'], 
+            choices: ['plan', 'apply', 'destroy'],
             name: 'Terraform_Action'
         )])
 ])
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Git Pulling') {
             steps {
-                git branch: 'master', url: 'https://github.com/AmanPathak-DevOps/EKS-Terraform-GitHub-Actions.git'
+                git branch: 'master', url: 'https://github.com/ujjwalkirti/EKS-Terraform-GitHub-Actions.git'
             }
         }
         stage('Init') {
@@ -39,7 +39,7 @@ pipeline {
         stage('Action') {
             steps {
                 withAWS(credentials: 'aws-creds', region: 'us-east-1') {
-                    script {    
+                    script {
                         if (params.Terraform_Action == 'plan') {
                             sh "terraform -chdir=eks/ plan -var-file=${params.Environment}.tfvars"
                         }   else if (params.Terraform_Action == 'apply') {
